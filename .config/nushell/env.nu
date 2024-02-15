@@ -110,12 +110,21 @@ def --env ya [...args: string] {
 	rm -f $tmp
 }
 
-$env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
-mkdir ~/.cache/carapace
-carapace _carapace nushell | save --force ~/.cache/carapace/init.nu
+let $carapace_x = which carapace
+if ($carapace_x | length) > 0 {
+  $env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
+  mkdir ~/.cache/carapace
+  carapace _carapace nushell | save --force ~/.cache/carapace/init.nu
+}
 
-mkdir ~/.cache/starship
-starship init nu | save -f ~/.cache/starship/init.nu
+let $starship_x = which starship
 
-zoxide init nushell | save -f ~/.zoxide.nu
+if ($starship_x | length) > 0 {
+  mkdir ~/.cache/starship
+  starship init nu | save -f ~/.cache/starship/init.nu
+}
+
+if (which zoxide | length) > 1 {
+  zoxide init nushell | save -f ~/.zoxide.nu
+}
 

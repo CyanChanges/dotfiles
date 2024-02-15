@@ -758,14 +758,19 @@ $env.config = {
     ]
 }
 
-$env.SSH_AGENT_PID=""
-$env.SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh"
+$env.SSH_AGENT_PID = ""
+$env.SSH_AUTH_SOCK = (gpgconf --list-dirs agent-ssh-socket)
+gpg-connect-agent updatestartuptty /bye err+out> /dev/null
 
 alias pwsh = pwsh -NoLogo
 
-source ~/.cache/carapace/init.nu
+if ("~/.cache/carapace/init.nu" | path exists) {
+  source ~/.cache/carapace/init.nu
+}
 
-use ~/.cache/starship/init.nu
+if ("~/.cache/starship/init.nu" | path exists) {
+  use ~/.cache/starship/init.nu
+}
 
 #source ~/.zoxide.nu
 

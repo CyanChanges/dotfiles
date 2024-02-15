@@ -49,7 +49,9 @@ class PM:
 
     @classmethod
     def from_name(cls, pm_name: str, *, ld_name: str = None, ld_path: Path = None):
-        return cls(PMS_DIR / f".{pm_name}.zsh", name=pm_name, ld_name=ld_name, ld_path=ld_path)
+        return cls(
+            PMS_DIR / f".{pm_name}.zsh", name=pm_name, ld_name=ld_name, ld_path=ld_path
+        )
 
     def print_if(self):
         if self.x_init.is_file():
@@ -70,7 +72,12 @@ class PM:
     def exist(self):
         if self.ld_path:
             return self.ld_path.is_file()
-        return self.base_script.exists() or self.x_init.is_file() or self.x_prepare.is_file() or self.x_cleanup.is_file()
+        return (
+            self.base_script.exists()
+            or self.x_init.is_file()
+            or self.x_prepare.is_file()
+            or self.x_cleanup.is_file()
+        )
 
     def cname(self):
         return f"[cyan]{self.name}[/]"
@@ -112,7 +119,7 @@ PMS_LOADERS = (*PMS_DIR.glob("load-*.zsh"),)
 
 Path(typer.get_app_dir("z-pms")).mkdir(parents=True, exist_ok=True)
 
-shelve = shelve_open(str(Path(typer.get_app_dir("z-pms")) / 'state.shelve'))
+shelve = shelve_open(str(Path(typer.get_app_dir("z-pms")) / "state.shelve"))
 
 
 @functools.cache
@@ -129,11 +136,13 @@ def set_environ():
 
 
 def print_banner():
-    banner = Panel(Text.assemble(
-        ("ZshPMs", "cyan"),
-        (' - ', "bright_black"),
-        ("Use random plugin manager everyday", "blue")
-    ))
+    banner = Panel(
+        Text.assemble(
+            ("ZshPMs", "cyan"),
+            (" - ", "bright_black"),
+            ("Use random plugin manager everyday", "blue"),
+        )
+    )
     print(banner)
 
 
@@ -152,10 +161,20 @@ def cdata(data: str | Any):
 
 @app.command()
 def select(
-        which_pm: Annotated[
-            PMEnum, typer.Option(help="Chose specific pm", prompt="Which PM you prefer to use", show_choices=True)],
-        use_relative: Annotated[bool, typer.Option(help="Use relative path instead of absolute")] = True,
-        force: Annotated[bool, typer.Option("--force", "-f", help="Force reinit the pm")] = False
+    which_pm: Annotated[
+        PMEnum,
+        typer.Option(
+            help="Chose specific pm",
+            prompt="Which PM you prefer to use",
+            show_choices=True,
+        ),
+    ],
+    use_relative: Annotated[
+        bool, typer.Option(help="Use relative path instead of absolute")
+    ] = True,
+    force: Annotated[
+        bool, typer.Option("--force", "-f", help="Force reinit the pm")
+    ] = False,
 ):
     """
     Select new zsh plugin manager
@@ -168,13 +187,12 @@ def select(
 
     last_date: date = shelve.get(KEY_LAST_DATE, date.min)
     todays_pm_name: str = (
-        choice(tuple(pms.keys()))
-        if which_pm == 'random' else which_pm
+        choice(tuple(pms.keys())) if which_pm == "random" else which_pm
     )
 
     if (date.today() - last_date).days >= 1:
         shelve[KEY_LAST_DATE] = date.today()
-        if which_pm == 'daily':
+        if which_pm == "daily":
             todays_pm_name = choice(which_pm)
 
     pm_loader = pms[todays_pm_name]
@@ -232,8 +250,8 @@ def select(
                         f"source {pm.base_script.read_text()}\n"
                         if pm.base_script.is_file()
                         else ""
-                             f"source $HOME/{LD_PM_REL}\n"
-                             f"source $HOME/{quote(str(ROOT_REL / '.z-footer.zsh'))}\n"
+                        f"source $HOME/{LD_PM_REL}\n"
+                        f"source $HOME/{quote(str(ROOT_REL / '.z-footer.zsh'))}\n"
                     ),
                 )
             )
@@ -255,8 +273,8 @@ def select(
                         f"source {pm.base_script.read_text()}\n"
                         if pm.base_script.is_file()
                         else ""
-                             f"source {PM_LOAD}\n"
-                             f"source {quote(str(ZPM_ROOT / '.z-footer.zsh'))}\n"
+                        f"source {PM_LOAD}\n"
+                        f"source {quote(str(ZPM_ROOT / '.z-footer.zsh'))}\n"
                     ),
                 )
             )

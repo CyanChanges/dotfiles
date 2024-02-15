@@ -1,4 +1,6 @@
-.pm-loader.zsh
+\.pm-loader.zsh
+\.zimfw-git.zsh
+\.idea
 
 # Comments and blank lines are allowed.
 
@@ -15,6 +17,7 @@ _darcs
 
 \.git
 \.gitignore
+\.gitmodules
 
 .+~          # emacs backup files
 \#.*\#       # emacs autosave files

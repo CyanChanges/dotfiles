@@ -20,6 +20,7 @@ def name_from_loader(ld_name: str) -> str:
     return ld_name.removeprefix("load-").removesuffix(".zsh")
 
 
+USE_RELATIVE = True
 KEY_TODAYS_PM = "z-pms-todays-pm"
 KEY_LAST_DATE = "z-pms-last-date"
 
@@ -115,25 +116,58 @@ print(f"Updating {ZSHRC_PATH}...")
 if not ZSHRC_PATH.is_file():
     ZSHRC_PATH.unlink(True)
 
+if USE_RELATIVE:
+    LD_PM_REL = PM_LOAD.relative_to(HOME_DIR)
+    ROOT_REL = ZPM_ROOT.relative_to(HOME_DIR)
+    PMS_REL = PMS_DIR.relative_to(HOME_DIR)
+    X_INIT_REL = X_INIT_CONFIG.relative_to(HOME_DIR)
 
-ZSHRC_PATH.write_text(
-    "\n".join(
-        (
-            #   f"source ~/.z-headers.zsh\n"
-            f"export ZPM_ROOT={quote(str(ZPM_ROOT))}",
-            f"export ZPMS_DIR={quote(str(PMS_DIR))}",
-            f"export ZPM_CUR_PM={quote(str(todays_pm))}",
-            (f"source {quote(str(X_INIT_CONFIG))}" if X_INIT_CONFIG.is_file() else ""),
+    ZSHRC_PATH.write_text(
+        "\n".join(
             (
-                f"source {PM_SCRIPT.read_text()}\n"
-                if PM_SCRIPT.is_file()
-                else ""
-                f"source {PM_LOAD}\n"
-                f"source {quote(str(ZPM_ROOT / '.z-footer.zsh'))}\n"
-            ),
+                #   f"source ~/.z-headers.zsh\n"
+                f"export ZPM_ROOT=$HOME/{quote(str(ROOT_REL))}",
+                f"export ZPMS_DIR=$HOME/{quote(str(PMS_REL))}",
+                f"export ZPM_CUR_PM={quote(str(todays_pm))}",
+                (
+                    f"source $HOME/{quote(str(X_INIT_REL))}"
+                    if X_INIT_CONFIG.is_file()
+                    else ""
+                ),
+                (
+                    f"source {PM_SCRIPT.read_text()}\n"
+                    if PM_SCRIPT.is_file()
+                    else ""
+                    f"source $HOME/{LD_PM_REL}\n"
+                    f"source $HOME/{quote(str(ROOT_REL / '.z-footer.zsh'))}\n"
+                ),
+            )
         )
     )
-)
+else:
+    ZSHRC_PATH.write_text(
+        "\n".join(
+            (
+                #   f"source ~/.z-headers.zsh\n"
+                f"export ZPM_ROOT={quote(str(ZPM_ROOT))}",
+                f"export ZPMS_DIR={quote(str(PMS_DIR))}",
+                f"export ZPM_CUR_PM={quote(str(todays_pm))}",
+                (
+                    f"source {quote(str(X_INIT_CONFIG))}"
+                    if X_INIT_CONFIG.is_file()
+                    else ""
+                ),
+                (
+                    f"source {PM_SCRIPT.read_text()}\n"
+                    if PM_SCRIPT.is_file()
+                    else ""
+                    f"source {PM_LOAD}\n"
+                    f"source {quote(str(ZPM_ROOT / '.z-footer.zsh'))}\n"
+                ),
+            )
+        )
+    )
+
 
 PM_LOAD.unlink(True)
 os.symlink(str(pm_loader), PM_LOAD)

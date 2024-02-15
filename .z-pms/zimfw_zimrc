@@ -34,11 +34,14 @@ zmodule asciiship
 # Completion
 #
 
-# Additional completion definitions for Zsh.
-zmodule zsh-users/zsh-completions --fpath src
+__pm_load_zsh_completions() { 
+  # Additional completion definitions for Zsh.
+  zmodule zsh-users/zsh-completions --fpath src
+  zmodule completion
+}
+source $ZPM_ROOT/.completions.zsh
 # Enables and configures smart and extensive tab completion.
 # completion must be sourced after all modules that add completion definitions.
-zmodule completion
 
 #
 # Modules that must be initialized last
@@ -56,5 +59,7 @@ zmodule zdharma-continuum/history-search-multi-word
 zmodule zsh-users/zsh-autosuggestions
 # }}} End configuration added by Zim install
 
-zmodule romkatv/powerlevel10k
+#zmodule romkatv/powerlevel10k
+zstyle ':zim:module' spaceship 'url' 'denysdovhan/spaceship-prompt'
+#eval "$(starship init zsh)"
 

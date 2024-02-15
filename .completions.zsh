@@ -10,6 +10,8 @@ source /opt/miniconda/etc/profile.d/conda.sh
 
 autoload -U +X bashcompinit && bashcompinit
 
-eval $(thefuck --alias)
-eval "$(register-python-argcomplete pipx)"
-eval "$(register-python-argcomplete keyring)"
+(( ${+commands[safe-rm]} )) && eval $(thefuck --alias)
+if (( ${+commands[safe-rm]} )); then
+  eval "$(register-python-argcomplete pipx)"
+  eval "$(register-python-argcomplete keyring)"
+fi

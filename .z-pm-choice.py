@@ -25,10 +25,13 @@ KEY_LAST_DATE = "z-pms-last-date"
 
 storage = redis.Redis("127.0.0.1", 6379, 0, None)
 
+
+ZPM_ROOT = Path(".").resolve()
+
 HOME_DIR = Path(os.path.expanduser("~")).resolve()
-PM_LOAD = HOME_DIR / ".pm-loader.zsh"
-ZSHRC_PATH = HOME_DIR / ".zshrc"
-PMS_DIR = HOME_DIR / Path("./.z-pms/").resolve()
+PM_LOAD = ZPM_ROOT / ".pm-loader.zsh"
+ZSHRC_PATH = ZPM_ROOT / ".zshrc"
+PMS_DIR = ZPM_ROOT / Path(".z-pms/").resolve()
 DISABLES_DIR = PMS_DIR / "disable"
 DISABLES = DISABLES_DIR.read_text("u8").splitlines()
 PMS_LOADERS = (*PMS_DIR.glob("load-*.zsh"),)
@@ -45,6 +48,7 @@ print("[cyan]ZshPMs[/] [bright_black]-[/] [blue]Use random package manager every
 print("[bright_black]" + "-" * 40 + "[/bright_black]")
 
 print("Home path\t", HOME_DIR)
+print("ZPM Root path\t", ZPM_ROOT)
 print("Zshrc path\t", ZSHRC_PATH)
 print("PMs dir:\t", PMS_DIR)
 print("Availiable PMs:\t", " ".join(PMS))
@@ -70,9 +74,6 @@ if (date.today() - last_date).days >= 1:
     todays_pm = choice(tuple(PMS.keys()))
 
 pm_loader = PMS[todays_pm]
-
-ZPM_ROOT = Path(".").resolve()
-
 os.environ["ZPM_ROOT"] = str(ZPM_ROOT)
 
 PM_SCRIPT = PMS_DIR / f".{todays_pm}.zsh"
@@ -83,9 +84,6 @@ X_INIT = PM_SCRIPT.with_suffix(".init.zsh")
 X_CLEANUP = PM_SCRIPT.with_suffix(".clean.zsh")
 
 storage.set(KEY_TODAYS_PM, todays_pm)
-print(f"Todays pm:\t {todays_pm}")
-print(f"Located loader:\t {pm_loader}")
-print("")
 
 X_PREV_SCRIPT = PMS_DIR / f".{prev_pm}.zsh"
 X_PREV_CLEANUP = None
@@ -93,6 +91,10 @@ X_PREV_CLEANUP = None
 if prev_pm:
     print("Previous PM:\t", prev_pm)
     X_PREV_CLEANUP = X_PREV_SCRIPT.with_suffix(".clean.zsh")
+
+print(f"Todays pm:\t {todays_pm}")
+print(f"Located loader:\t {pm_loader}")
+print("")
 
 if X_INIT.is_file():
     print(f"X PM Init:\t {X_INIT}")
@@ -118,13 +120,16 @@ ZSHRC_PATH.write_text(
     "\n".join(
         (
             #   f"source ~/.z-headers.zsh\n"
+            f"export ZPM_ROOT={quote(str(ZPM_ROOT))}",
             f"export ZPMS_DIR={quote(str(PMS_DIR))}",
             f"export ZPM_CUR_PM={quote(str(todays_pm))}",
             (f"source {quote(str(X_INIT_CONFIG))}" if X_INIT_CONFIG.is_file() else ""),
             (
                 f"source {PM_SCRIPT.read_text()}\n"
                 if PM_SCRIPT.is_file()
-                else "" f"source {PM_LOAD}\n" f"source ~/.z-footer.zsh\n"
+                else ""
+                f"source {PM_LOAD}\n"
+                f"source {quote(str(ZPM_ROOT / '.z-footer.zsh'))}\n"
             ),
         )
     )

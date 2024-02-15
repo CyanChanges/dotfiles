@@ -1,0 +1,1 @@
+/home/cyan/dotfiles/.z-pms/load-zinit.zsh

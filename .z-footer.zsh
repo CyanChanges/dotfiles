@@ -11,7 +11,9 @@ eval "$(zoxide init zsh)"
 source ~/.completions.zsh
 source ~/.ext.zsh
 
-source "$HOME/.rye/env"
+if [[ -d "$HOME/.rye" ]]; then
+  source "$HOME/.rye/env"
+fi
 
 #eval $(ssh-agent)&>/dev/null
 

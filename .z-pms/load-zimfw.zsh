@@ -128,8 +128,9 @@ for key ('j') bindkey -M vicmd ${key} history-substring-search-down
 unset key
 # }}} End configuration added by Zim install
 
-export ZPMS_DIR=/home/cyan/.z-pms
+export ZPMS_DIR=$HOME/.z-pms
 export ZPM_CUR_PM=zinit
-source /home/cyan/.z-pms/.zinit.config.zsh
-source /home/cyan/.pm-loader.zsh
-source ~/.z-footer.zsh
+source "$HOME/.z-pms/.zinit.config.zsh"
+source "$HOME/.pm-loader.zsh"
+source "$HOME/.z-footer.zsh"
+

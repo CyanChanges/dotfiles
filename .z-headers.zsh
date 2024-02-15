@@ -15,13 +15,23 @@ fi
 export EDITOR='nvim'
 
 # Created by `pipx` on 2023-11-12 04:20:02
-export PATH="$PATH:/home/cyan/.local/bin"
+export PATH="$PATH:$HOME/.local/bin"
 
-export PATH="$PATH:/home/cyan/.cargo/bin"
-export PATH="$PATH:$(yarn global bin)"
+if [[ -d "$HOME/.cargo/bin" ]]; then
+  export PATH="$PATH:$HOME/.cargo/bin"
+fi
 
-export PATH="$PATH:/home/cyan/.local/share/JetBrains/Toolbox/scripts"
-export PATH="$PATH:/home/cyan/.nix-profile/bin"
+if (( ${+commands[yarn]} )); then
+  export PATH="$PATH:$(yarn global bin)"
+fi
+
+if [[ -d "$HOME/.local/share/JetBrains/Toolbox/scripts" ]]; then
+export PATH="$PATH:$HOME/.local/share/JetBrains/Toolbox/scripts"
+fi
+
+if [[ -d "$HOME/.nix-profile/" ]]; then
+export PATH="$PATH:$HOME/.nix-profile/bin"
+fi
 
 export LOAD_P10K=${LOAD_P10K:-"none"}
 

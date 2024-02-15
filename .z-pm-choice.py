@@ -170,7 +170,7 @@ else:
 
 
 PM_LOAD.unlink(True)
-os.symlink(str(pm_loader), PM_LOAD)
+PM_LOAD.symlink_to(pm_loader.relative_to(PM_LOAD.parent))
 
 print(f"Link {PM_LOAD} -> {pm_loader}")
 

@@ -3,9 +3,8 @@
 
 This repo contains the dotfiles of mine.
 
-> [!WARNING]
-> It is working in progress.
-> It may not working till I migrate everything to `stow`.
+> [!IMPORTANT]
+> This project working in progress.
 
 ## Requirements
 

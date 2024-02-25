@@ -11,7 +11,7 @@ source "${ZINIT_HOME}/zinit.zsh"
 HISTFILE=~/.zhistory
 HISTSIZE=100000
 
-bindkey -v
+bindkey -e
 bindkey -v '^?' backward-delete-char
 bindkey -v '^[[3~' delete-char
 

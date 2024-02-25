@@ -21,15 +21,19 @@ alias z-ee="bindkey -e"
 export TWORD="fuck microsoft"
 export CWORD="FUCK MICROSFT"
 
+alias ff='fastfetch'
+
+alias bt='btop'
+
 alias ls='lsd'
 
 export MANPAGER='nvim +Man!'
 
 source "$HOME/.zimfw-git.zsh"
 
-alias pwsh="pwsh -NoLogo"
-
 source "$HOME/.ext.utility.zsh"
+
+alias pwsh="pwsh -NoLogo"
 
 __MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
@@ -135,7 +139,7 @@ ucmd_s() {
 
 OS_RELEASE=$(cat /etc/os-release | grep ID=)
 if [[ $OS_RELEASE == *"arch"* ]]; then
-  source ./.ext.arch.zsh
+  source $ZPM_ROOT/.ext.arch.zsh
 fi
 
 alias s_zshrc="source ~/.zshrc"

@@ -9,24 +9,36 @@ This repo contains the dotfiles of mine.
 
 ## Requirements
 
-Make sure `python`, `python-rich`, `stow`, and `git` is installed
+Make sure `stow`, and `git` is installed
 before using this repo.
 
 Because i use [arch](https://archlinux.org) btw,
-so I use `pacman` to install `stow`.
+use `pacman` to install.
 
-```shell
-sudo pacman -S python python-rich python-colorama git stow
+```sh
+sudo pacman -S git stow
 ```
 
-If you want to better [`carapace`](https://carapace.sh/) completion
+To run `.zpms.py`, you need following packages:
+
+- zsh
+- python
+- python-rich
+- python-typer
+- python-colorama
+
+```sh
+pacman -S zsh python python-rich python-typer python-colorama
+```
+
+If you want to better completion,
 instead of `zsh-users/zsh-completions`, install `carapace`
 
 Because i use [arch](https://archlinux.org) btw,
-so use your favourite AUR package manager (`paru`, `yay`, etc.)
+use your AUR package manager (`paru`, `yay`, etc.)
 to install `carapace-bin`
 
-```shell
+```sh
 paru -S carapace-bin
 ```
 
@@ -54,11 +66,11 @@ Then, [Configure ZSH](#configure-zsh)
 
 Make sure `zsh` is installed:
 
-```shell
+```sh
 sudo pacman -S zsh 
 ```
 
-Run `z-pms.py`, to choice your favourite ZSH plugin manager.
+Run `z-pms.py` (See <#Requirements> above), to choice your favourite ZSH plugin manager.
 See [Choice ZSH plugin managers](#zsh-plugin-managers) for more details.
 I prefer [`zinit`](https://github.com/zdharma-continuum/zinit):
 

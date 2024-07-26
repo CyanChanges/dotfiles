@@ -12,8 +12,8 @@ HISTFILE=~/.zhistory
 HISTSIZE=100000
 
 bindkey -e
-bindkey -v '^?' backward-delete-char
-bindkey -v '^[[3~' delete-char
+# bindkey -e '^?' backward-delete-char
+# bindkey -e '^[[3~' delete-char
 
 zi ice lucid wait 1
 zi light zsh-users/zsh-history-substring-search

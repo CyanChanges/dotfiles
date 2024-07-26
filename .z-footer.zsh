@@ -6,6 +6,9 @@ fi
 
 eval "$(zoxide init zsh)"
 
+SAVEHIST=$HISTSIZE
+setopt append_history
+setopt share_history
 #source ~/.shellfirm-plugin.sh
 
 source ~/.completions.zsh

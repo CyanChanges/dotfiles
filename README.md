@@ -70,6 +70,11 @@ Make sure `zsh` is installed:
 sudo pacman -S zsh 
 ```
 
+Following packages is required too:
+```zsh
+paru -S gnupg zoxide lsd
+```
+
 Run `z-pms.py` (See <#Requirements> above), to choice your favourite ZSH plugin manager.
 See [Choice ZSH plugin managers](#zsh-plugin-managers) for more details.
 I prefer [`zinit`](https://github.com/zdharma-continuum/zinit):

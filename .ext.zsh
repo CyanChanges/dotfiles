@@ -19,7 +19,9 @@ alias z-vi="bindkey -v"
 alias z-ee="bindkey -e"
 
 export TWORD="fuck microsoft"
-export CWORD="FUCK MICROSFT"
+export CWORD="FUCK MICROSOFT"
+
+alias chrome-nix="NIXPKGS_ALLOW_UNFREE=1 nix-shell -p google-chrome --impure --run \"fcitx5 && nixGL google-chrome-stable\""
 
 alias ff='fastfetch'
 
@@ -163,7 +165,7 @@ if [[ -d $HOME/.utils ]]; then
   alias use_utils="ipython_u"
 fi
 
-perferN_ask() {
+preferN_ask() {
   read -q "RESULT?${gray}[${blue}?${gray}] ${aqua}$1 ${secondary}[y/N]${reset}"
   RESULT="$?"
   print "${reset}" 
@@ -181,7 +183,7 @@ to_wipe() {
     fi;
   done
 
-  if ! perferN_ask "Are you sure to wipe $# file(s)"; then
+  if ! preferN_ask "Are you sure to wipe $# file(s)"; then
     #$new_line
     uprint "Aborted!"
     return 1

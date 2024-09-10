@@ -1,10 +1,9 @@
-unset SSH_AGENT_PID
-if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-fi
-gpg-connect-agent updatestartuptty /bye >/dev/null
-
-(eval $(shellclear --init-shell)) &> /dev/null
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/1000}/ssh-agent.socket"
+# eval $(ssh-agent) > /dev/null
+#unset SSH_AGENT_PID
+#if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+#  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+#fi
 
 if [ -n "$TTY" ]; then
   export GPG_TTY=$(tty)
@@ -12,10 +11,16 @@ else
   export GPG_TTY="$TTY"
 fi
 
+# gpg-connect-agent updatestartuptty /bye >/dev/null
+
+(eval $(shellclear --init-shell)) &> /dev/null
+
 export EDITOR='nvim'
 
 # Created by `pipx` on 2023-11-12 04:20:02
 export PATH="$PATH:$HOME/.local/bin"
+
+export PATH="$PATH:$HOME/go/bin"
 
 if [[ -d "$HOME/.cargo/bin" ]]; then
   export PATH="$PATH:$HOME/.cargo/bin"

@@ -31,6 +31,8 @@ elif (( ${+commands[curl]} )); then
 fi
 
 
+alias cat="bat"
+
 #
 # Resource Usage
 #

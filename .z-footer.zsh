@@ -9,7 +9,7 @@ source /usr/share/doc/git-extras/git-extras-completion.zsh
 
 export GOPATH=$HOME/go
 
-SAVEHIST=$HISTSIZE
+#SAVEHIST=$HISTSIZE
 setopt append_history
 setopt share_history
 setopt CORRECT

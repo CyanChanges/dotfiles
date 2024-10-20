@@ -37,6 +37,13 @@ source "$HOME/.ext.utility.zsh"
 
 alias pwsh="pwsh -NoLogo"
 
+alias pass-get="pass tessen -p -f sk"
+
+alias k-copy="kitty + kitten clipboard"
+alias kopy="k-copy"
+
+alias k-mpv="mpv --vo=kitty"
+
 __MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
 #wiped() {
@@ -204,14 +211,16 @@ to_wipe() {
   return 0
 }
 
-function ya() {
-	tmp="$(mktemp -t "yazi-cwd.XXXXX")"
-	yazi $@ --cwd-file="$tmp"
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
 	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		cd -- "$cwd"
+		builtin cd -- "$cwd"
 	fi
 	rm -f -- "$tmp"
 }
+
+export LS_COLORS=$(vivid generate dracula)
 
 source ~/.ext.completions.zsh
 

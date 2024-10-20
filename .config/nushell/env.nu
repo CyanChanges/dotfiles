@@ -100,14 +100,14 @@ $env.NU_PLUGIN_DIRS = [
 # To add entries to PATH (on Windows you might use Path), you can use the following pattern:
 # $env.PATH = ($env.PATH | split row (char esep) | prepend '/some/path')
 
-def --env ya [...args: string] {
-  let tmp = (mktemp "yazi-cwd.XXXXX")
-	yazi $args --cwd-file $tmp
-	let cwd = open $tmp
+def --env y [...args] {
+	let tmp = (mktemp -t "yazi-cwd.XXXXXX")
+	yazi ...$args --cwd-file $tmp
+	let cwd = (open $tmp)
 	if $cwd != "" and $cwd != $env.PWD {
 		cd $cwd
 	}
-	rm -f $tmp
+	rm -fp $tmp
 }
 
 let $carapace_x = which carapace

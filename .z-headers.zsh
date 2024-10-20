@@ -6,11 +6,14 @@ export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/1000}/ssh-agent.socket"
 #fi
 
 if [ -n "$TTY" ]; then
-  export GPG_TTY=$(tty)
-else
-  export GPG_TTY="$TTY"
+  export TTY=$(tty)
 fi
 
+export GPG_TTY=$TTY
+
+if [ -f $HOME/.cache/ags/user/generated/terminal/sequences.txt ]; then
+  /usr/bin/cat $HOME/.cache/ags/user/generated/terminal/sequences.txt >> $TTY
+fi
 # gpg-connect-agent updatestartuptty /bye >/dev/null
 
 (eval $(shellclear --init-shell)) &> /dev/null

@@ -9,7 +9,7 @@ source "${ZINIT_HOME}/zinit.zsh"
 #ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
 HISTFILE=~/.zhistory
-HISTSIZE=100000
+HISTSIZE=1000000
 
 bindkey -v
 bindkey -v '^?' backward-delete-char

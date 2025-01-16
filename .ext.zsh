@@ -28,6 +28,7 @@ alias ff='fastfetch'
 alias bt='btop'
 
 alias ls='lsd'
+alias ip='ip -color=auto'
 
 export MANPAGER='nvim +Man!'
 

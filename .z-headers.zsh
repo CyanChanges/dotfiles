@@ -5,6 +5,12 @@ export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/1000}/ssh-agent.socket"
 #  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 #fi
 
+if ! [[ "$(type snippet)" =~ 'not found' ]]; then
+  function snippet() {
+    source $1
+  }
+fi
+
 if [ -n "$TTY" ]; then
   export TTY=$(tty)
 fi
@@ -48,6 +54,6 @@ if [[ $LOAD_P10K = "external" || $LOAD_P10K = "instant-only" ]]; then
   # Initialization code that may require console input (password prompts, [y/n]
   # confirmations, etc.) must go above this block; everything else may go below.
   if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    snippet "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
   fi
 fi

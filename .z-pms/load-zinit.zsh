@@ -3,8 +3,15 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 if [[ ! -v LOAD_P10K ]]; then
   export LOAD_P10K='none'
 fi
-source $ZPM_ROOT/.z-headers.zsh
+
 source "${ZINIT_HOME}/zinit.zsh"
+
+function snippet() {
+  zinit ice lucid wait
+  zinit snippet "$1"
+}
+
+source $ZPM_ROOT/.z-headers.zsh
 
 #ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
@@ -15,8 +22,13 @@ bindkey -v
 bindkey -v '^?' backward-delete-char
 bindkey -v '^[[3~' delete-char
 
-zi ice lucid wait 1
-zi light zsh-users/zsh-history-substring-search
+zinit snippet "$HOME/.z-pms/.completion.zsh"
+zinit for \
+    atload"zicompinit; zicdreplay" \
+    blockf \
+    lucid \
+    wait \
+  zsh-users/zsh-completions
 
 zi snippet OMZ::lib/history.zsh
 #zi snippet OMZ::lib/completion.zsh
@@ -27,9 +39,6 @@ zinit snippet OMZP::kubectl
 zinit snippet OMZP::kubectx
 #zinit snippet OMZP::command-not-found
 
-autoload -U compinit
-compinit
-
 zmodload -F zsh/terminfo +p:terminfo
 ## Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
 #for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
@@ -38,8 +47,8 @@ zmodload -F zsh/terminfo +p:terminfo
 #for key ('j') bindkey -M vicmd ${key} history-substring-search-down
 #unset key
 
-# Plugin history-search-multi-word loaded with investigating.
-zinit load zdharma-continuum/history-search-multi-word
+zi ice lucid wait
+zinit light zdharma-continuum/history-search-multi-word
 
 zstyle :plugin:history-search-multi-word reset-prompt-protect 1
 
@@ -50,7 +59,6 @@ zinit ice lucid wait atload'_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
 zinit ice lucid wait 1
 zinit light zdharma-continuum/fast-syntax-highlighting
-source "$HOME/.z-pms/.completion.zsh"
 #zinit for \
 #    atload"zicompinit; zicdreplay" \
 #    blockf \
@@ -82,16 +90,20 @@ zinit as'null' lucid wait'1' for \
   zdharma-continuum/git-url
   #    sbin'git-url;git-guclone' \
 
-zinit as'null' lucid wait for \
+zinit as'null' lucid wait'1' for \
   zimfw/git \
   zimfw/git-info \
   zimfw/utility
+
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M viins '^V' edit-command-line
 
 # Snippet
 #zinit snippet https://gist.githubusercontent.com/hightemp/5071909/raw/
 
 # Load powerlevel10k theme
-zinit ice depth"1" # git clone depth
+# zinit ice depth"1" # git clone depth
 #zinit light romkatv/powerlevel10k
 
 # Load starship theme
@@ -102,4 +114,7 @@ zinit ice as"command" from"gh-r" \
           atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
           atpull"%atclone" src"init.zsh"
 zinit light starship/starship
+
+autoload -Uz compinit
+compinit
 

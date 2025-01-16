@@ -904,6 +904,33 @@ if ("~/.cache/starship/init.nu" | path exists) {
   use ~/.cache/starship/init.nu
 }
 
+if ("/opt/asdf-vm/asdf.nu" | path exists) {
+  "\n$env.ASDF_DIR = '/opt/asdf-vm/'\n source /opt/asdf-vm/asdf.nu" | save --append $nu.config-path
+}
+
 #source ~/.zoxide.nu
 
 
+
+$env.ASDF_DIR = '/opt/asdf-vm/'
+ source /opt/asdf-vm/asdf.nu
+$env.ASDF_DIR = '/opt/asdf-vm/'
+ source /opt/asdf-vm/asdf.nu
+$env.ASDF_DIR = '/opt/asdf-vm/'
+ source /opt/asdf-vm/asdf.nu
+$env.ASDF_DIR = '/opt/asdf-vm/'
+ source /opt/asdf-vm/asdf.nu
+$env.ASDF_DIR = '/opt/asdf-vm/'
+ source /opt/asdf-vm/asdf.nu
+$env.ASDF_DIR = '/opt/asdf-vm/'
+ source /opt/asdf-vm/asdf.nu
+$env.ASDF_DIR = '/opt/asdf-vm/'
+ source /opt/asdf-vm/asdf.nu
+$env.ASDF_DIR = '/opt/asdf-vm/'
+ source /opt/asdf-vm/asdf.nu
+$env.ASDF_DIR = '/opt/asdf-vm/'
+ source /opt/asdf-vm/asdf.nu
+$env.ASDF_DIR = '/opt/asdf-vm/'
+ source /opt/asdf-vm/asdf.nu
+$env.ASDF_DIR = '/opt/asdf-vm/'
+ source /opt/asdf-vm/asdf.nu

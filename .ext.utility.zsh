@@ -2,6 +2,11 @@
 # Utility aliases and settings
 #
 
+# ASDF Manager
+if [[ -f /opt/asdf-vm/asdf.sh ]]; then
+  . /opt/asdf-vm/asdf.sh
+fi
+
 # Set less or more as the default pager.
 if (( ! ${+PAGER} )); then
   if (( ${+commands[less]} )); then

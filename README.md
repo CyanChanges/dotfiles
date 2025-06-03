@@ -28,7 +28,7 @@ To run `.zpms.py`, you need following packages:
 - python-colorama
 
 ```sh
-pacman -S zsh python python-rich python-typer python-colorama
+sudo pacman -S zsh python python-rich python-typer python-colorama
 ```
 
 If you want to better completion,
@@ -80,8 +80,10 @@ See [Choice ZSH plugin managers](#zsh-plugin-managers) for more details.
 I prefer [`zinit`](https://github.com/zdharma-continuum/zinit):
 
 ```shell
-./.z-pms.py select zinit
+./.z-pms.py
 ```
+
+Enter the name to select.
 
 Wait until the command complete,
 run `zsh` to have a nice ZSH shell.

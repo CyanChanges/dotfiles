@@ -13,9 +13,6 @@ if (( ${+commands[paru]} )); then
   }
 fi
 
-autoload -Uz compinit
-compinit
-
 compdef _paru roll_all
 
 compdef _no_args do_update

@@ -3,9 +3,13 @@
 #
 
 # ASDF Manager
-if [[ -f /opt/asdf-vm/asdf.sh ]]; then
-  . /opt/asdf-vm/asdf.sh
-fi
+#if [[ -f /opt/asdf-vm/asdf.sh ]]; then
+#  . /opt/asdf-vm/asdf.sh
+#fi
+
+# Mise
+eval "$(mise activate zsh)"
+eval "$(mise activate zsh --shims)"
 
 # Set less or more as the default pager.
 if (( ! ${+PAGER} )); then
@@ -109,6 +113,11 @@ else
     fi
   fi
 fi
+
+
+function cg() {
+  deno run --allow-run "$HOME/dotfiles/utils2/cgroup.ts" $@
+}
 
 
 #

@@ -6,7 +6,7 @@ fi
 
 eval "$(zoxide init zsh --no-aliases)"
 alias z="__zoxide_z"
-alias '$'="__zoxide_zi"
+alias '@'="__zoxide_zi"
 
 export GOPATH=$HOME/go
 
@@ -38,3 +38,4 @@ fi
 #eval $(ssh-agent)&>/dev/null
 
 
+# snippet /etc/profile.d/google-cloud-cli.sh

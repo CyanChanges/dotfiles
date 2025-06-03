@@ -18,9 +18,11 @@ source $ZPM_ROOT/.z-headers.zsh
 HISTFILE=~/.zhistory
 HISTSIZE=1000000
 
-bindkey -v
-bindkey -v '^?' backward-delete-char
-bindkey -v '^[[3~' delete-char
+if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
+  bindkey -v
+  bindkey -v '^?' backward-delete-char
+  bindkey -v '^[[3~' delete-char
+fi
 
 zinit snippet "$HOME/.z-pms/.completion.zsh"
 zinit for \
@@ -106,14 +108,35 @@ bindkey -M viins '^V' edit-command-line
 # zinit ice depth"1" # git clone depth
 #zinit light romkatv/powerlevel10k
 
-# Load starship theme
-# line 1: `starship` binary as command, from github release
-# line 2: starship setup at clone(create init.zsh, completion)
-# line 3: pull behavior same as clone, source init.zsh
-zinit ice as"command" from"gh-r" \
-          atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
-          atpull"%atclone" src"init.zsh"
-zinit light starship/starship
+function __starship_transient() {
+  return
+  __starship__prompt() { PROMPT=$(starship prompt) }
+  precmd_functions=(__starship__prompt)
+
+  __starship__short_prompt() {
+    if [[ $PROMPT != '%# ' ]]; then
+        PROMPT=$(starship module character)
+      zle .reset-prompt
+    fi
+  }
+
+  zle-line-finish() { __starship__short_prompt }
+  zle -N zle-line-finish
+
+  trap '__starship__short_prompt; return 130' INT
+}
+
+if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
+  # Load starship theme
+  # line 1: `starship` binary as command, from github release
+  # line 2: starship setup at clone(create init.zsh, completion)
+  # line 3: pull behavior same as clone, source init.zsh
+  zinit ice as"command" from"gh-r" \
+            atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
+            atload"__starship_transient" \
+            atpull"%atclone" src"init.zsh"
+  zinit light starship/starship
+fi
 
 autoload -Uz compinit
 compinit

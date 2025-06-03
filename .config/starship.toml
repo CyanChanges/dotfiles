@@ -45,8 +45,8 @@ format = "[  $duration ]($style)"
 style = "fg:bright-white bg:18"
 
 [character]
-success_symbol = '[ ](bold green)'
-error_symbol = '[ ](#E84D44)'
+success_symbol = '[ ❯](bold green)'
+error_symbol = '[ ❯](#E84D44)'
 
 [time]
 disabled = false

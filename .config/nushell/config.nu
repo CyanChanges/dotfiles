@@ -215,8 +215,8 @@ $env.config = {
     }
 
     filesize: {
-        metric: false # true => KB, MB, GB (ISO standard), false => KiB, MiB, GiB (Windows standard)
-        format: "auto" # b, kb, kib, mb, mib, gb, gib, tb, tib, pb, pib, eb, eib, auto
+        unit: "binary"
+	      precision: 2
     }
 
     cursor_shape: {
@@ -896,41 +896,49 @@ gpg-connect-agent updatestartuptty /bye err+out> /dev/null
 
 alias pwsh = pwsh -NoLogo
 
-if ("~/.cache/carapace/init.nu" | path exists) {
-  source ~/.cache/carapace/init.nu
-}
+source-env (if ("~/.cache/carapace/init.nu" | path exists) { "~/.cache/carapace/init.nu" })
 
 if ("~/.cache/starship/init.nu" | path exists) {
   use ~/.cache/starship/init.nu
 }
 
-if ("/opt/asdf-vm/asdf.nu" | path exists) {
-  "\n$env.ASDF_DIR = '/opt/asdf-vm/'\n source /opt/asdf-vm/asdf.nu" | save --append $nu.config-path
+source (if ("~/.cache/zoxide.nu" | path exists) { "~/.cache/zoxide.nu" })
+
+def --env --wrapped z [...rest: string] {
+  if ((which __zoxide_z) != null) {
+    return (error make --unspanned { msg: "zoxide not available" })
+  }
+  __zoxide_z ...$rest
 }
 
-#source ~/.zoxide.nu
+def --env --wrapped @ [...rest: string] {
+  if ((which __zoxide_zi) != null) {
+    return (error make --unspanned { msg: "zoxide not available" })
+  }
+  __zoxide_zi ...$rest
+}
 
+source (if ("~/.asdf" | path exists) { "~/.asdf/completions/nushell.nu" })
 
+if ("~/.bun/bin/" | path exists) {
+  use std/util "path add"
+  path add "~/.bun/bin"
+}
 
-$env.ASDF_DIR = '/opt/asdf-vm/'
- source /opt/asdf-vm/asdf.nu
-$env.ASDF_DIR = '/opt/asdf-vm/'
- source /opt/asdf-vm/asdf.nu
-$env.ASDF_DIR = '/opt/asdf-vm/'
- source /opt/asdf-vm/asdf.nu
-$env.ASDF_DIR = '/opt/asdf-vm/'
- source /opt/asdf-vm/asdf.nu
-$env.ASDF_DIR = '/opt/asdf-vm/'
- source /opt/asdf-vm/asdf.nu
-$env.ASDF_DIR = '/opt/asdf-vm/'
- source /opt/asdf-vm/asdf.nu
-$env.ASDF_DIR = '/opt/asdf-vm/'
- source /opt/asdf-vm/asdf.nu
-$env.ASDF_DIR = '/opt/asdf-vm/'
- source /opt/asdf-vm/asdf.nu
-$env.ASDF_DIR = '/opt/asdf-vm/'
- source /opt/asdf-vm/asdf.nu
-$env.ASDF_DIR = '/opt/asdf-vm/'
- source /opt/asdf-vm/asdf.nu
-$env.ASDF_DIR = '/opt/asdf-vm/'
- source /opt/asdf-vm/asdf.nu
+if ("~/.asdf" | path exists) {
+  use std/util "path add"
+
+  let shims_dir = "~/.asdf/shims"
+  path add $shims_dir
+  # const asdf_data_dir = (
+  #   if ( $env | get --ignore-errors ASDF_DATA_DIR | is-empty ) {
+  #     $nu.home-path | path join '.asdf'
+  #   } else {
+  #     $env.ASDF_DATA_DIR
+  #   }
+  # )
+}
+
+use (if ($nu.default-config-dir | path join mise.nu | path exists) {
+  $nu.default-config-dir | path join mise.nu
+})

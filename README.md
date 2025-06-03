@@ -45,7 +45,7 @@ paru -S carapace-bin
 
 ## Quick Start
 
-Please check out the [Requirements](#basic-requirements)  
+Please check out the [Requirements](#requirements)  
 
 Clone this repo in your `$HOME` directory using git:
 
@@ -98,4 +98,10 @@ List of currently supported plugin managers and support status:
 
 ## Completions
 
+## Dev environment
 
+I use [mise](https://mise.jdx.dev/) to configure my dev environment
+
+```shell
+paru -S mise
+```

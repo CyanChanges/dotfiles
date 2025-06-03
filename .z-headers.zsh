@@ -24,19 +24,26 @@ fi
 
 (eval $(shellclear --init-shell)) &> /dev/null
 
-export EDITOR='nvim'
+if [[ -z "$VISUAL" && -z "$EDITOR" ]]; then
+  export VISUAL="nvim"
+fi
 
 # Created by `pipx` on 2023-11-12 04:20:02
 export PATH="$PATH:$HOME/.local/bin"
 
+# Go
 export PATH="$PATH:$HOME/go/bin"
+
+# asdf
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+
+# Deno
+export PATH="$HOME/.deno/bin:$PATH"
+# Bun
+export PATH="$HOME/.bun/bin:$PATH"
 
 if [[ -d "$HOME/.cargo/bin" ]]; then
   export PATH="$PATH:$HOME/.cargo/bin"
-fi
-
-if (( ${+commands[yarn]} )); then
-  export PATH="$PATH:$(yarn global bin)"
 fi
 
 if [[ -d "$HOME/.local/share/JetBrains/Toolbox/scripts" ]]; then

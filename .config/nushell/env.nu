@@ -33,7 +33,7 @@ def create_right_prompt [] {
     let time_segment = ([
         (ansi reset)
         (ansi magenta)
-        (date now | format date '%x %X %p') # try to respect user's locale
+        (date now | format date '%Y/%m/%d %H:%M:%S')
     ] | str join | str replace --regex --all "([/:])" $"(ansi green)${1}(ansi magenta)" |
         str replace --regex --all "([AP]M)" $"(ansi magenta_underline)${1}")
 
@@ -63,7 +63,7 @@ $env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
 # This can be useful if you have a 2-line prompt and it's taking up a lot of space
 # because every command entered takes up 2 lines instead of 1. You can then uncomment
 # the line below so that previously entered commands show with a single `🚀`.
-# $env.TRANSIENT_PROMPT_COMMAND = {|| "🚀 " }
+$env.TRANSIENT_PROMPT_COMMAND = {|| $"(ansi green) " }
 # $env.TRANSIENT_PROMPT_INDICATOR = {|| "" }
 # $env.TRANSIENT_PROMPT_INDICATOR_VI_INSERT = {|| "" }
 # $env.TRANSIENT_PROMPT_INDICATOR_VI_NORMAL = {|| "" }
@@ -110,21 +110,33 @@ def --env y [...args] {
 	rm -fp $tmp
 }
 
-let $carapace_x = which carapace
-if ($carapace_x | length) > 0 {
+let asdf_data_dir = (
+  if ( $env | get --ignore-errors ASDF_DATA_DIR | is-empty ) {
+    $nu.home-path | path join '.asdf'
+  } else {
+    $env.ASDF_DATA_DIR
+  }
+)
+
+if (which carapace | length) > 0 {
   $env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
   mkdir ~/.cache/carapace
   carapace _carapace nushell | save --force ~/.cache/carapace/init.nu
 }
 
-let $starship_x = which starship
-
-if ($starship_x | length) > 0 {
+if (which starship | length) > 0 {
   mkdir ~/.cache/starship
   starship init nu | save -f ~/.cache/starship/init.nu
+
+  $env.TRANSIENT_PROMPT_COMMAND = {|| (starship module character) }
 }
 
-if (which zoxide | length) > 1 {
-  zoxide init nushell | save -f ~/.zoxide.nu
+if (which zoxide | length) > 0 {
+  zoxide init nushell --no-cmd | save -f ~/.cache/zoxide.nu
 }
 
+
+let mise_path = $nu.default-config-dir | path join mise.nu
+^mise activate nu | str replace "export-env {" "" | prepend "export-env {" | save $mise_path --force
+
+$env.NU_LIB_DIRS ++= [($mise_path | path dirname | to nuon)]

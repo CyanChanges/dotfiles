@@ -11,6 +11,10 @@
 eval "$(mise activate zsh)"
 eval "$(mise activate zsh --shims)"
 
+if (( ${+commands[sccache]} )); then
+  export SCCACHE="${commands[sccache]}"
+fi
+
 # Set less or more as the default pager.
 if (( ! ${+PAGER} )); then
   if (( ${+commands[less]} )); then
@@ -119,6 +123,9 @@ function cg() {
   deno run --allow-run "$HOME/dotfiles/utils2/cgroup.ts" $@
 }
 
+function msr() {
+  deno run -A "$HOME/dotfiles/utils2/msr.ts" $@
+}
 
 #
 # ls Aliases

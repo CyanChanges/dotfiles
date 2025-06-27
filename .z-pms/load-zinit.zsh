@@ -108,34 +108,37 @@ bindkey -M viins '^V' edit-command-line
 # zinit ice depth"1" # git clone depth
 #zinit light romkatv/powerlevel10k
 
-function __starship_transient() {
-  return
-  __starship__prompt() { PROMPT=$(starship prompt) }
-  precmd_functions=(__starship__prompt)
+# function __starship_transient() {
+#   return
+#   __starship__prompt() { PROMPT=$(starship prompt) }
+#   precmd_functions=(__starship__prompt)
+#
+#   __starship__short_prompt() {
+#     if [[ $PROMPT != '%# ' ]]; then
+#         PROMPT=$(starship module character)
+#       zle .reset-prompt
+#     fi
+#   }
+#
+#   zle-line-finish() { __starship__short_prompt }
+#   zle -N zle-line-finish
+#
+#   trap '__starship__short_prompt; return 130' INT
+# }
 
-  __starship__short_prompt() {
-    if [[ $PROMPT != '%# ' ]]; then
-        PROMPT=$(starship module character)
-      zle .reset-prompt
-    fi
-  }
-
-  zle-line-finish() { __starship__short_prompt }
-  zle -N zle-line-finish
-
-  trap '__starship__short_prompt; return 130' INT
-}
+#__starship_transient
 
 if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
+  eval "$(oh-my-posh init zsh --config $(@env ohmyposh_config))"
   # Load starship theme
-  # line 1: `starship` binary as command, from github release
-  # line 2: starship setup at clone(create init.zsh, completion)
-  # line 3: pull behavior same as clone, source init.zsh
-  zinit ice as"command" from"gh-r" \
-            atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
-            atload"__starship_transient" \
-            atpull"%atclone" src"init.zsh"
-  zinit light starship/starship
+  # # line 1: `starship` binary as command, from github release
+  # # line 2: starship setup at clone(create init.zsh, completion)
+  # # line 3: pull behavior same as clone, source init.zsh
+  # zinit ice as"command" from"gh-r" \
+  #           atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
+  #           atload"__starship_transient" \
+  #           atpull"%atclone" src"init.zsh"
+  # zinit light starship/starship
 fi
 
 autoload -Uz compinit

@@ -49,6 +49,8 @@ alias kopy="k-copy"
 
 alias k-mpv="mpv --vo=kitty"
 
+alias @d='ripdrag'
+
 # __MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
 #wiped() {
@@ -77,7 +79,7 @@ update_dyn() {
   curl -d "secret=酥怕四酷睿特密文awa" https://dyn.addr.tools
 }
 
-alias sded="sudo $EDITOR"
+alias sded="sudo ${VISUAL-:$EDITOR}"
 
 #alias ipython_u='ipython -i -c "import utils; from utils import *"'
 

@@ -124,12 +124,12 @@ if (which carapace | length) > 0 {
   carapace _carapace nushell | save --force ~/.cache/carapace/init.nu
 }
 
-if (which starship | length) > 0 {
-  mkdir ~/.cache/starship
-  starship init nu | save -f ~/.cache/starship/init.nu
-
-  $env.TRANSIENT_PROMPT_COMMAND = {|| (starship module character) }
-}
+#if (which starship | length) > 0 {
+#  mkdir ~/.cache/starship
+#  starship init nu | save -f ~/.cache/starship/init.nu
+#
+#  $env.TRANSIENT_PROMPT_COMMAND = {|| (starship module character) }
+#}
 
 if (which zoxide | length) > 0 {
   zoxide init nushell --no-cmd | save -f ~/.cache/zoxide.nu

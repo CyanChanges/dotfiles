@@ -7,10 +7,6 @@
 #  . /opt/asdf-vm/asdf.sh
 #fi
 
-# Mise
-eval "$(mise activate zsh)"
-eval "$(mise activate zsh --shims)"
-
 if (( ${+commands[sccache]} )); then
   export SCCACHE="${commands[sccache]}"
 fi

@@ -896,10 +896,16 @@ gpg-connect-agent updatestartuptty /bye err+out> /dev/null
 
 alias pwsh = pwsh -NoLogo
 
+source "~/dotfiles/snippets/env.nu"
+
 source-env (if ("~/.cache/carapace/init.nu" | path exists) { "~/.cache/carapace/init.nu" })
 
-if ("~/.cache/starship/init.nu" | path exists) {
-  use ~/.cache/starship/init.nu
+#if ("~/.cache/starship/init.nu" | path exists) {
+#  use ~/.cache/starship/init.nu
+#}
+
+if (which oh-my-posh | length) > 0 {
+  oh-my-posh init nu --config (!env ohmyposh_config)
 }
 
 source (if ("~/.cache/zoxide.nu" | path exists) { "~/.cache/zoxide.nu" })

@@ -47,12 +47,18 @@ if [[ -d "$HOME/.cargo/bin" ]]; then
 fi
 
 if [[ -d "$HOME/.local/share/JetBrains/Toolbox/scripts" ]]; then
-export PATH="$PATH:$HOME/.local/share/JetBrains/Toolbox/scripts"
+  export PATH="$PATH:$HOME/.local/share/JetBrains/Toolbox/scripts"
 fi
 
 if [[ -d "$HOME/.nix-profile/" ]]; then
-export PATH="$PATH:$HOME/.nix-profile/bin"
+  export PATH="$PATH:$HOME/.nix-profile/bin"
 fi
+
+# Mise
+eval "$(mise activate zsh)"
+eval "$(mise activate zsh --shims)"
+
+snippet ~/dotfiles/snippets/env.sh
 
 export LOAD_P10K=${LOAD_P10K:-"none"}
 

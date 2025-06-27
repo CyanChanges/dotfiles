@@ -31,6 +31,15 @@ export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
 zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
 source <(carapace _carapace)
 
+
+# pnpm
+export PNPM_HOME="/home/cyan/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
 if [[ -d "$HOME/.rye" ]]; then
   snippet "$HOME/.rye/env"
 fi
